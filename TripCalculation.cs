@@ -18,7 +18,7 @@ namespace Asio_Home_Assignment
 
             while (bagWeights.Count > 0)
             {
-                Trip trip = new Trip();  // Bags to be taken in this trip
+                Trip trip = new Trip();
                 trip.Bags = new List<Bag>();
                 double currentWeight = 0;
 
