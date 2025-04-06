@@ -1,0 +1,14 @@
+﻿<Window x:Class="Asio_Home_Assignment.ShowResultWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Asio_Home_Assignment"
+        mc:Ignorable="d"
+        Title="ShowResultWin" Height="450" Width="800">
+    <Grid>
+        <ScrollViewer x:Name="dynamicScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="10,60,10,10">
+            <Label Name="DataLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+        </ScrollViewer>
+    </Grid>
+</Window>
