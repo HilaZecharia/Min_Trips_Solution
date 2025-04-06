@@ -67,42 +67,7 @@ namespace Asio_Home_Assignment
                     bagsPanel.Children.Clear();
 
                     List<UIElement> newControls = new List<UIElement>();
-                    await Task.Run(() =>
-                    {
-                        // This runs on a background thread
-                        List<string> bagWeights = new List<string>();
-
-                        for (int i = 0; i < numBags; i++)
-                            bagWeights.Add($"Please enter bag {i + 1} weight:");
-
-                        //marshal the creation of UI elements back to the UI thread
-                        Dispatcher.Invoke(() =>
-                        {
-                            Button btnCalculate = new Button() { Content = "Calculate trip", Width = 130, VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 20, 0, 0) };
-                            btnCalculate.Click += btnCalculate_Click;
-                            // Dynamically create textboxes for entering bag weights
-                            for (int i = 0; i < bagWeights.Count; i++)
-                            {
-                                StackPanel stackPanel = new StackPanel()
-                                {
-                                    Orientation = Orientation.Horizontal,
-                                    VerticalAlignment = VerticalAlignment.Center,
-                                };
-
-                                Label lblWeight = new Label()
-                                {
-                                    Content = bagWeights[i],
-                                    VerticalAlignment = VerticalAlignment.Center,
-                                    HorizontalAlignment = HorizontalAlignment.Left,
-                                };
-                                TextBox weightTextBox = new TextBox() { Width = 100, VerticalAlignment = VerticalAlignment.Center, Name = $"{BagNamePrefix + i.ToString()}", HorizontalAlignment = HorizontalAlignment.Left };
-                                stackPanel.Children.Add(lblWeight);
-                                stackPanel.Children.Add(weightTextBox);
-                                bagsPanel.Children.Add(stackPanel);
-                            }
-                            bagsPanel.Children.Add(btnCalculate);
-                        });
-                    });
+                    await CreateElemDynamicly(numBags);
                 }
                 else
                 {
@@ -114,6 +79,47 @@ namespace Asio_Home_Assignment
                 MessageBox.Show($"An error occurred: {ex.Message}");
             }
         }
+
+        private async Task CreateElemDynamicly(int numBags)
+        {
+            await Task.Run(() =>
+            {
+                // This runs on a background thread
+                List<string> bagWeights = new List<string>();
+
+                for (int i = 0; i < numBags; i++)
+                    bagWeights.Add($"Please enter bag {i + 1} weight:");
+
+                //marshal the creation of UI elements back to the UI thread
+                Dispatcher.Invoke(() =>
+                {
+                    Button btnCalculate = new Button() { Content = "Calculate trip", Width = 130, VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 20, 0, 0) };
+                    btnCalculate.Click += btnCalculate_Click;
+                    // Dynamically create textboxes for entering bag weights
+                    for (int i = 0; i < bagWeights.Count; i++)
+                    {
+                        StackPanel stackPanel = new StackPanel()
+                        {
+                            Orientation = Orientation.Horizontal,
+                            VerticalAlignment = VerticalAlignment.Center,
+                        };
+
+                        Label lblWeight = new Label()
+                        {
+                            Content = bagWeights[i],
+                            VerticalAlignment = VerticalAlignment.Center,
+                            HorizontalAlignment = HorizontalAlignment.Left,
+                        };
+                        TextBox weightTextBox = new TextBox() { Width = 100, VerticalAlignment = VerticalAlignment.Center, Name = $"{BagNamePrefix + i.ToString()}", HorizontalAlignment = HorizontalAlignment.Left };
+                        stackPanel.Children.Add(lblWeight);
+                        stackPanel.Children.Add(weightTextBox);
+                        bagsPanel.Children.Add(stackPanel);
+                    }
+                    bagsPanel.Children.Add(btnCalculate);
+                });
+            });
+        }
+
         private void ShowResult(Tuple<int, List<Trip>> result)
         {
             int numTrips = result.Item1;
